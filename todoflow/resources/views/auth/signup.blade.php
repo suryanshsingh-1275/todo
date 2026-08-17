@@ -4,117 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sign Up</title>
+    <title>Sign Up - TodoFlow</title>
 
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body id="signup-page">
+<body>
 
-    <main class="auth-container">
+<div class="auth-container">
 
-        <section class="auth-card">
+    <div class="auth-card">
 
-            <div class="auth-header">
-                <h1 class="auth-title">Create Account</h1>
+        <div class="auth-header">
+            <h1 class="auth-title">Create Account</h1>
+            <p class="auth-subtitle">Create your TodoFlow account</p>
+        </div>
 
-                <p class="auth-subtitle">
-                    Start managing your tasks with TodoFlow
-                </p>
-            </div>
+        <form
+            action="{{ route('signup') }}"
+            method="POST"
+            class="auth-form"
+        >
 
-            <form id="signup-form" class="auth-form">
+            @csrf
 
-                <div class="form-group">
+            <div class="form-group">
 
-                    <label for="signup-name">
-                        Name
-                    </label>
+                <label for="name">Name</label>
 
-                    <input
-                        type="text"
-                        id="signup-name"
-                        name="name"
-                        class="form-input"
-                        placeholder="Enter your name"
-                        required
-                    >
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="signup-email">
-                        Email
-                    </label>
-
-                    <input
-                        type="email"
-                        id="signup-email"
-                        name="email"
-                        class="form-input"
-                        placeholder="Enter your email"
-                        required
-                    >
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="signup-password">
-                        Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="signup-password"
-                        name="password"
-                        class="form-input"
-                        placeholder="Create a password"
-                        required
-                    >
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="signup-password-confirmation">
-                        Confirm Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="signup-password-confirmation"
-                        name="password_confirmation"
-                        class="form-input"
-                        placeholder="Confirm your password"
-                        required
-                    >
-
-                </div>
-
-                <button
-                    type="submit"
-                    id="signup-button"
-                    class="primary-button"
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="form-input"
+                    value="{{ old('name') }}"
+                    required
                 >
-                    Create Account
-                </button>
 
-            </form>
-
-            <div class="auth-footer">
-
-                <p>
-                    Already have an account?
-                    <a href="/login" id="login-link">Login</a>
-                </p>
+                @error('name')
+                    <p>{{ $message }}</p>
+                @enderror
 
             </div>
 
-        </section>
 
-    </main>
+            <div class="form-group">
+
+                <label for="email">Email</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    class="form-input"
+                    required
+                >
+
+                @error('email')
+                    <p>{{ $message }}</p>
+                @enderror
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">Password</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-input"
+                    required
+                >
+
+                @error('password')
+                    <p>{{ $message }}</p>
+                @enderror
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password_confirmation">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password_confirmation"
+                    name="password_confirmation"
+                    class="form-input"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Create Account
+            </button>
+
+        </form>
+
+
+        <div class="auth-footer">
+
+            <p>
+                Already have an account?
+                <a href="{{ route('login') }}">Login</a>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>
