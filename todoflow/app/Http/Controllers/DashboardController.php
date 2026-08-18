@@ -13,6 +13,6 @@ class DashboardController extends Controller
             ->latest()
             ->get();
 
-        return view('dashboard', compact('tasks'));
+        return view('dashboard.index', compact('tasks'));
     }
 }
