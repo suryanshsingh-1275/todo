@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login</title>
+    <title>Login - TodoFlow</title>
 
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body id="login-page">
@@ -22,7 +22,13 @@
                 </p>
             </div>
 
-            <form id="login-form" class="auth-form">
+            <form
+                id="login-form"
+                class="auth-form"
+                action="{{ route('login') }}"
+                method="POST"
+            >
+                @csrf
 
                 <div class="form-group">
                     <label for="login-email">Email</label>
@@ -33,8 +39,14 @@
                         name="email"
                         class="form-input"
                         placeholder="Enter your email"
+                        value="{{ old('email') }}"
                         required
+                        autofocus
                     >
+
+                    @error('email')
+                        <p class="form-error">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
@@ -63,7 +75,7 @@
             <div class="auth-footer">
                 <p>
                     Don't have an account?
-                    <a href="/signup" id="signup-link">Create one</a>
+                    <a href="{{ route('signup') }}" id="signup-link">Create one</a>
                 </p>
             </div>
 
