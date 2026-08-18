@@ -9,17 +9,15 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Dashboard</title>
+    <title>Dashboard - TodoFlow</title>
 
-    vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 
 <body id="dashboard-page">
 
     <div class="dashboard-container">
-
-        
 
         <aside id="sidebar" class="sidebar">
 
@@ -34,32 +32,28 @@
             <nav id="sidebar-nav" class="sidebar-nav">
 
                 <a
-                    href="/dashboard"
+                    href="{{ route('dashboard') }}"
                     id="dashboard-link"
                     class="nav-link active"
                 >
                     Dashboard
                 </a>
 
-                <a
-                    href="#"
-                    id="completed-link"
-                    class="nav-link"
-                >
-                    Completed
-                </a>
-
             </nav>
 
             <div class="sidebar-footer">
 
-                <a
-                    href="/logout"
-                    id="logout-button"
-                    class="logout-button"
+                <form
+                    action="{{ route('logout') }}"
+                    method="POST"
+                    id="logout-form"
                 >
-                    Logout
-                </a>
+                    @csrf
+
+                    <button type="submit" class="logout-button">
+                        Logout
+                    </button>
+                </form>
 
             </div>
 
@@ -69,6 +63,12 @@
         <!-- MAIN CONTENT -->
 
         <main id="main-content" class="main-content">
+
+            @if (session('success'))
+                <div class="flash-success">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <!-- TOP BAR -->
 
@@ -88,12 +88,13 @@
 
                 <div class="topbar-right">
 
-                    <button
+                    <a
+                        href="{{ route('tasks.create') }}"
                         id="create-task-button"
                         class="primary-button"
                     >
                         + Add Task
-                    </button>
+                    </a>
 
                 </div>
 
@@ -115,6 +116,7 @@
                         <button
                             id="filter-all"
                             class="filter-button active"
+                            data-filter="all"
                         >
                             All
                         </button>
@@ -122,6 +124,7 @@
                         <button
                             id="filter-todo"
                             class="filter-button"
+                            data-filter="todo"
                         >
                             Todo
                         </button>
@@ -129,6 +132,7 @@
                         <button
                             id="filter-progress"
                             class="filter-button"
+                            data-filter="in_progress"
                         >
                             In Progress
                         </button>
@@ -136,6 +140,7 @@
                         <button
                             id="filter-completed"
                             class="filter-button"
+                            data-filter="completed"
                         >
                             Completed
                         </button>
@@ -149,106 +154,119 @@
 
                 <div id="task-list" class="task-list">
 
-                    <!-- Example Task -->
+                    @forelse ($tasks as $task)
 
-                    <article class="task-card" data-task-id="1">
+                        <article
+                            class="task-card"
+                            data-task-id="{{ $task->id }}"
+                            data-status="{{ $task->status }}"
+                        >
 
-                        <div class="task-card-header">
+                            <div class="task-card-header">
 
-                            <div class="task-info">
+                                <div class="task-info">
 
-                                <h4 class="task-title">
-                                    Learn Laravel
-                                </h4>
+                                    <h4 class="task-title">
+                                        {{ $task->title }}
+                                    </h4>
 
-                                <span class="task-status status-progress">
-                                    In Progress
-                                </span>
+                                    <span class="task-status status-{{ $task->status === 'in_progress' ? 'progress' : $task->status }}">
+                                        {{ ucfirst(str_replace('_', ' ', $task->status)) }}
+                                    </span>
 
-                            </div>
+                                </div>
 
 
-                            <!-- THREE DOT MENU -->
+                                <!-- THREE DOT MENU -->
 
-                            <div class="task-menu">
-
-                                <button
-                                    class="task-menu-button"
-                                    id="task-menu-1"
-                                    type="button"
-                                >
-                                    ⋮
-                                </button>
-
-                                <div
-                                    class="task-dropdown"
-                                    id="task-dropdown-1"
-                                >
+                                <div class="task-menu">
 
                                     <button
-                                        class="task-action edit-task"
-                                        data-task-id="1"
+                                        class="task-menu-button"
+                                        type="button"
                                     >
-                                        Edit
+                                        &#8942;
                                     </button>
 
-                                    <button
-                                        class="task-action delete-task"
-                                        data-task-id="1"
-                                    >
-                                        Delete
-                                    </button>
+                                    <div class="task-dropdown">
+
+                                        <a
+                                            href="{{ route('tasks.edit', $task) }}"
+                                            class="task-action"
+                                        >
+                                            Edit
+                                        </a>
+
+                                        <form
+                                            action="{{ route('tasks.destroy', $task) }}"
+                                            method="POST"
+                                            class="delete-task-form"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button
+                                                type="submit"
+                                                class="task-action delete-task"
+                                            >
+                                                Delete
+                                            </button>
+                                        </form>
+
+                                    </div>
 
                                 </div>
 
                             </div>
 
-                        </div>
+
+                            @if ($task->description)
+                                <p class="task-description">
+                                    {{ $task->description }}
+                                </p>
+                            @endif
 
 
-                        <p class="task-description">
-                            Learn Laravel MVC, routing and Eloquent ORM.
-                        </p>
+                            <div class="task-card-footer">
 
+                                <span class="task-priority priority-{{ $task->priority }}">
+                                    {{ ucfirst($task->priority) }} Priority
+                                </span>
 
-                        <div class="task-card-footer">
+                                <span class="task-date">
+                                    Due: {{ $task->due_date ? $task->due_date->format('M d') : 'No date' }}
+                                </span>
 
-                            <span class="task-priority priority-high">
-                                High Priority
-                            </span>
+                            </div>
 
-                            <span class="task-date">
-                                Due: Aug 20
-                            </span>
+                        </article>
 
-                        </div>
+                    @empty
 
-                    </article>
-
-
-                    <!-- EMPTY STATE -->
-
-                    <div
-                        id="empty-task-state"
-                        class="empty-task-state"
-                    >
-
-                        <h3 class="empty-title">
-                            No tasks yet
-                        </h3>
-
-                        <p class="empty-description">
-                            Create your first task to get started.
-                        </p>
-
-                        <button
-                            id="empty-create-task-button"
-                            class="primary-button"
+                        <div
+                            id="empty-task-state"
+                            class="empty-task-state"
                         >
-                            Create Task
-                        </button>
 
-                    </div>
+                            <h3 class="empty-title">
+                                No tasks yet
+                            </h3>
+
+                            <p class="empty-description">
+                                Create your first task to get started.
+                            </p>
+
+                            <a
+                                href="{{ route('tasks.create') }}"
+                                id="empty-create-task-button"
+                                class="primary-button"
+                            >
+                                Create Task
+                            </a>
+
+                        </div>
+
+                    @endforelse
 
                 </div>
 
