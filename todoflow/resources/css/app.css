@@ -1,3 +1,9 @@
+:root {
+    --border: #000000;
+    --bg: #ffffff;
+    --text: #000000;
+    --muted: #555555;
+}
 
 * {
     margin: 0;
@@ -10,8 +16,8 @@ html {
 }
 
 body {
-    background: #ffffff;
-    color: #000000;
+    background: var(--bg);
+    color: var(--text);
 }
 
 button,
@@ -21,6 +27,7 @@ input {
 
 button {
     cursor: pointer;
+    background: none;
 }
 
 a {
@@ -28,27 +35,51 @@ a {
     text-decoration: none;
 }
 
+/* ---------- Shared elements ---------- */
 
-/* =========================================
-   AUTH PAGES
-========================================= */
+.primary-button {
+    display: inline-block;
+    border: 1px solid var(--border);
+    background: var(--text);
+    color: var(--bg);
+    padding: 12px 18px;
+    font-weight: 600;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.primary-button:hover {
+    background: var(--bg);
+    color: var(--text);
+}
+
+.flash-success {
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.form-error {
+    font-size: 12px;
+    color: var(--text);
+    margin-top: -4px;
+}
+
+/* ---------- Auth pages ---------- */
 
 .auth-container {
     min-height: 100vh;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     padding: 24px;
 }
 
 .auth-card {
     width: 100%;
     max-width: 420px;
-
-    border: 1px solid #000000;
-
+    border: 1px solid var(--border);
     padding: 40px;
 }
 
@@ -59,13 +90,13 @@ a {
 .auth-title {
     font-size: 32px;
     font-weight: 700;
-
     margin-bottom: 8px;
 }
 
-.auth-subtitle {
+.auth-subtitle,
+.page-subtitle {
     font-size: 14px;
-    color: #555555;
+    color: var(--muted);
 }
 
 .auth-form {
@@ -87,13 +118,10 @@ a {
 
 .form-input {
     width: 100%;
-
     padding: 12px 14px;
-
-    border: 1px solid #000000;
-    background: #ffffff;
-    color: #000000;
-
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
     outline: none;
 }
 
@@ -101,29 +129,9 @@ a {
     border-width: 2px;
 }
 
-.primary-button {
-    border: 1px solid #000000;
-
-    background: #000000;
-    color: #ffffff;
-
-    padding: 12px 18px;
-
-    font-weight: 600;
-
-    transition: 0.2s ease;
-}
-
-.primary-button:hover {
-    background: #ffffff;
-    color: #000000;
-}
-
 .auth-footer {
     margin-top: 24px;
-
     text-align: center;
-
     font-size: 14px;
 }
 
@@ -132,37 +140,24 @@ a {
     text-decoration: underline;
 }
 
-
-/* =========================================
-   DASHBOARD LAYOUT
-========================================= */
+/* ---------- Dashboard layout ---------- */
 
 .dashboard-container {
     min-height: 100vh;
-
     display: flex;
 }
 
-
-/* =========================================
-   SIDEBAR
-========================================= */
-
 .sidebar {
     width: 240px;
-
     min-height: 100vh;
-
-    border-right: 1px solid #000000;
-
+    border-right: 1px solid var(--border);
     display: flex;
     flex-direction: column;
 }
 
 .sidebar-header {
     padding: 28px 24px;
-
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid var(--border);
 }
 
 .logo {
@@ -173,85 +168,54 @@ a {
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-
     padding: 20px 12px;
-
     gap: 4px;
 }
 
 .nav-link {
     padding: 12px;
-
     font-size: 14px;
-
     border: 1px solid transparent;
 }
 
 .nav-link:hover,
 .nav-link.active {
-    background: #000000;
-    color: #ffffff;
+    background: var(--text);
+    color: var(--bg);
 }
 
 .sidebar-footer {
     margin-top: auto;
-
     padding: 20px 24px;
-
-    border-top: 1px solid #000000;
+    border-top: 1px solid var(--border);
 }
 
 .logout-button {
     font-size: 14px;
-
     text-decoration: underline;
+    padding: 0;
 }
-
-
-/* =========================================
-   MAIN CONTENT
-========================================= */
 
 .main-content {
     flex: 1;
-
     padding: 40px;
 }
 
-
-/* =========================================
-   TOPBAR
-========================================= */
-
 .topbar {
     display: flex;
-
     justify-content: space-between;
     align-items: flex-start;
-
     gap: 20px;
-
     padding-bottom: 32px;
-
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid var(--border);
 }
 
 .page-title {
     font-size: 32px;
-
     margin-bottom: 8px;
 }
 
-.page-subtitle {
-    font-size: 14px;
-
-    color: #555555;
-}
-
-
-/* =========================================
-   TASK SECTION
-========================================= */
+/* ---------- Task section ---------- */
 
 .tasks-section {
     padding-top: 32px;
@@ -259,10 +223,8 @@ a {
 
 .tasks-header {
     display: flex;
-
     justify-content: space-between;
     align-items: center;
-
     margin-bottom: 24px;
 }
 
@@ -272,119 +234,82 @@ a {
 
 .task-filter {
     display: flex;
-
     gap: 6px;
 }
 
 .filter-button {
-    background: #ffffff;
-
-    border: 1px solid #000000;
-
+    background: var(--bg);
+    border: 1px solid var(--border);
     padding: 8px 12px;
-
     font-size: 13px;
 }
 
 .filter-button:hover,
 .filter-button.active {
-    background: #000000;
-    color: #ffffff;
+    background: var(--text);
+    color: var(--bg);
 }
-
-
-/* =========================================
-   TASK LIST
-========================================= */
 
 .task-list {
     display: grid;
-
-    grid-template-columns:
-        repeat(auto-fill, minmax(280px, 1fr));
-
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
 }
 
-
-/* =========================================
-   TASK CARD
-========================================= */
+/* ---------- Task card ---------- */
 
 .task-card {
-    border: 1px solid #000000;
-
+    border: 1px solid var(--border);
     padding: 20px;
-
-    background: #ffffff;
+    background: var(--bg);
 }
 
 .task-card-header {
     display: flex;
-
     justify-content: space-between;
     align-items: flex-start;
-
     gap: 16px;
 }
 
 .task-info {
     display: flex;
-
     flex-direction: column;
-
     gap: 8px;
 }
 
 .task-title {
     font-size: 17px;
-
     font-weight: 700;
 }
 
 .task-description {
     margin-top: 16px;
-
     font-size: 14px;
-
     line-height: 1.5;
-
     color: #333333;
 }
 
-
-/* =========================================
-   STATUS
-========================================= */
-
 .task-status {
     display: inline-block;
-
     width: fit-content;
-
     padding: 4px 8px;
-
-    border: 1px solid #000000;
-
+    border: 1px solid var(--border);
     font-size: 11px;
-
     text-transform: uppercase;
 }
 
 .status-progress {
-    background: #000000;
-    color: #ffffff;
+    background: var(--text);
+    color: var(--bg);
 }
 
-.status-todo {
-    background: #ffffff;
-    color: #000000;
+.status-todo,
+.status-completed {
+    background: var(--bg);
+    color: var(--text);
 }
 
-
-/* =========================================
-   TASK MENU
-========================================= */
+/* ---------- Task menu ---------- */
 
 .task-menu {
     position: relative;
@@ -393,126 +318,94 @@ a {
 .task-menu-button {
     width: 32px;
     height: 32px;
-
-    background: #ffffff;
-
-    border: 1px solid #000000;
-
+    background: var(--bg);
+    border: 1px solid var(--border);
     font-size: 18px;
-
     line-height: 1;
 }
 
 .task-menu-button:hover {
-    background: #000000;
-    color: #ffffff;
+    background: var(--text);
+    color: var(--bg);
 }
 
 .task-dropdown {
     position: absolute;
-
     top: 38px;
     right: 0;
-
     width: 120px;
-
-    background: #ffffff;
-
-    border: 1px solid #000000;
-
+    background: var(--bg);
+    border: 1px solid var(--border);
     display: none;
-
+    flex-direction: column;
     z-index: 10;
 }
 
 .task-dropdown.show {
     display: flex;
+}
 
-    flex-direction: column;
+.task-action,
+.delete-task-form {
+    width: 100%;
 }
 
 .task-action {
-    width: 100%;
-
+    display: block;
     padding: 10px;
-
-    background: #ffffff;
-
+    background: var(--bg);
     border: none;
-
     text-align: left;
-
     font-size: 13px;
 }
 
 .task-action:hover {
-    background: #000000;
-    color: #ffffff;
+    background: var(--text);
+    color: var(--bg);
 }
 
-
-/* =========================================
-   TASK FOOTER
-========================================= */
+/* ---------- Task footer ---------- */
 
 .task-card-footer {
     display: flex;
-
     justify-content: space-between;
     align-items: center;
-
     margin-top: 20px;
-
     padding-top: 14px;
-
-    border-top: 1px solid #000000;
-
+    border-top: 1px solid var(--border);
     font-size: 12px;
 }
 
 .task-priority {
     padding: 4px 8px;
-
-    border: 1px solid #000000;
+    border: 1px solid var(--border);
 }
 
 .task-date {
-    color: #555555;
+    color: var(--muted);
 }
 
-
-/* =========================================
-   EMPTY STATE
-========================================= */
+/* ---------- Empty state ---------- */
 
 .empty-task-state {
     grid-column: 1 / -1;
-
     text-align: center;
-
     padding: 60px 20px;
-
-    border: 1px dashed #000000;
+    border: 1px dashed var(--border);
 }
 
 .empty-title {
     font-size: 20px;
-
     margin-bottom: 8px;
 }
 
 .empty-description {
-    color: #555555;
-
+    color: var(--muted);
     font-size: 14px;
-
     margin-bottom: 20px;
 }
 
-
-/* =========================================
-   RESPONSIVE
-========================================= */
+/* ---------- Responsive ---------- */
 
 @media (max-width: 768px) {
 
@@ -541,9 +434,8 @@ a {
     .sidebar {
         width: 100%;
         min-height: auto;
-
         border-right: none;
-        border-bottom: 1px solid #000000;
+        border-bottom: 1px solid var(--border);
     }
 
     .sidebar-nav {
