@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-
     const menuButtons = document.querySelectorAll(".task-menu-button");
 
     menuButtons.forEach((button) => {
@@ -17,13 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            
             menu.classList.toggle("show");
+
         });
 
     });
-
-
 
     document.addEventListener("click", () => {
 
@@ -34,186 +31,49 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    // DELETE TASK
+    // DELETE TASK CONFIRMATION
 
-    document.addEventListener("click", (event) => {
+    document.querySelectorAll(".delete-task-form").forEach((form) => {
 
-        if (event.target.classList.contains("delete-task")) {
-
-            const taskCard = event.target.closest(".task-card");
+        form.addEventListener("submit", (event) => {
 
             const confirmDelete = confirm(
                 "Are you sure you want to delete this task?"
             );
 
-            if (confirmDelete) {
-
-                taskCard.remove();
-
-                checkEmptyState();
-
+            if (!confirmDelete) {
+                event.preventDefault();
             }
 
-        }
+        });
 
     });
 
 
-    // ADD TASK
+    // CLIENT-SIDE STATUS FILTER
 
-    const addTaskButton = document.querySelector("#create-task-button");
+    const filterButtons = document.querySelectorAll(".filter-button");
+    const taskCards = document.querySelectorAll(".task-card");
 
-    if (addTaskButton) {
+    filterButtons.forEach((button) => {
 
-        addTaskButton.addEventListener("click", () => {
+        button.addEventListener("click", () => {
 
-            createTask();
+            filterButtons.forEach((btn) => btn.classList.remove("active"));
+            button.classList.add("active");
 
-        });
+            const filter = button.dataset.filter;
 
-    }
+            taskCards.forEach((card) => {
 
+                const matches = filter === "all" || card.dataset.status === filter;
 
-    // Empty state button
+                card.style.display = matches ? "" : "none";
 
-    const emptyCreateButton = document.querySelector(
-        "#empty-create-task-button"
-    );
-
-    if (emptyCreateButton) {
-
-        emptyCreateButton.addEventListener("click", () => {
-
-            createTask();
+            });
 
         });
 
-    }
-
-
-    // CREATE TASK FUNCTION
-
-    function createTask() {
-
-        const title = prompt("Enter task title:");
-
-        if (!title || title.trim() === "") {
-            return;
-        }
-
-        const description = prompt("Enter task description:");
-
-        const taskList = document.querySelector("#task-list");
-
-        const taskCard = document.createElement("article");
-
-        taskCard.classList.add("task-card");
-
-        taskCard.dataset.taskId = Date.now();
-
-
-        taskCard.innerHTML = `
-
-            <div class="task-card-header">
-
-                <div class="task-info">
-
-                    <h4 class="task-title">
-                        ${title}
-                    </h4>
-
-                    <span class="task-status status-todo">
-                        Todo
-                    </span>
-
-                </div>
-
-
-                <div class="task-menu">
-
-                    <button
-                        class="task-menu-button"
-                        type="button"
-                    >
-                        ⋮
-                    </button>
-
-                    <div class="task-dropdown">
-
-                        <button
-                            class="task-action edit-task"
-                        >
-                            Edit
-                        </button>
-
-                        <button
-                            class="task-action delete-task"
-                        >
-                            Delete
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <p class="task-description">
-                ${description || "No description"}
-            </p>
-
-
-            <div class="task-card-footer">
-
-                <span class="task-priority priority-medium">
-                    Medium Priority
-                </span>
-
-                <span class="task-date">
-                    Due: No date
-                </span>
-
-            </div>
-
-        `;
-
-
-        taskList.appendChild(taskCard);
-
-        checkEmptyState();
-
-    }
-
-    function checkEmptyState() {
-
-        const taskList = document.querySelector("#task-list");
-
-        const taskCards = taskList.querySelectorAll(".task-card");
-
-        const emptyState = document.querySelector(
-            "#empty-task-state"
-        );
-
-        if (!emptyState) {
-            return;
-        }
-
-        if (taskCards.length === 0) {
-
-            emptyState.style.display = "block";
-
-        } else {
-
-            emptyState.style.display = "none";
-
-        }
-
-    }
-
-
-  
-
-    checkEmptyState();
+    });
 
 });
